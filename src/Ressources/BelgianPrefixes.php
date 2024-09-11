@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Helip\PhoneNumber\Ressources;
 
+use Helip\PhoneNumber\Exceptions\InvalidPhoneNumberException;
+
 class BelgianPrefixes
 {
     private static array $fixedLinePrefixes = [
@@ -91,7 +93,7 @@ class BelgianPrefixes
     public static function isMobileOperator(string $number): array
     {
         if (!preg_match('/^[0-9]+$/', $number)) {
-            throw new \Exception('Passed number is not only digits: ' . $number);
+            throw new InvalidPhoneNumberException('Passed number is not only digits: ' . $number);
         }
 
         // get 4 first digits (mobile operator)
