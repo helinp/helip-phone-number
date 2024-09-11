@@ -15,10 +15,11 @@ class PhoneNumber
      * Create a new PhoneNumber object.
      *
      * @param string $rawPhoneNumber The phone number to parse.
+     * @param string $expectedCountryCode The expected country code. If not provided, the country code will be automatically detected.
      */
-    public function __construct(string $rawPhoneNumber)
+    public function __construct(string $rawPhoneNumber, string $expectedCountryCode = null)
     {
-        $this->phoneNumberModel = PhoneNumberParser::parse($rawPhoneNumber);
+        $this->phoneNumberModel = PhoneNumberParser::parse($rawPhoneNumber, $expectedCountryCode);
     }
 
     /**

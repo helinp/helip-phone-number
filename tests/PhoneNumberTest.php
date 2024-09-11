@@ -67,6 +67,23 @@ class PhoneNumberTest extends TestCase
         }
     }
 
+    public function testPhoneNumberExpectedBelgianCountryCode()
+    {
+        $dataProvider = $this->phoneNumberBelgianDataProvider(); 
+
+        foreach ($dataProvider as $data) {
+            [$rawPhoneNumber, $expectedInternationalFormat, $expectedCountryCode, $expectedType, $expectedException] = $data;
+
+            if ($expectedException) {
+                $this->expectException($expectedException);
+                $phoneNumber = new PhoneNumber($rawPhoneNumber, 'BE'); // This line will throw the exception
+            } else {
+                $phoneNumber = new PhoneNumber($rawPhoneNumber, 'BE');
+                $this->assertEquals($expectedCountryCode, $phoneNumber->getCountryCode(), "Failed asserting country code for $rawPhoneNumber");
+            }
+        }
+    }
+
 
     /**
      * Fournisseur de données personnalisé pour testPhoneNumber
@@ -93,6 +110,15 @@ class PhoneNumberTest extends TestCase
             [null, null, null, PhoneNumberModel::TYPE_UNKNOWN, InvalidPhoneNumberException::class], # null
             ['', null, null, PhoneNumberModel::TYPE_UNKNOWN, InvalidPhoneNumberException::class], # empty string
             [32471234567, null, null, PhoneNumberModel::TYPE_UNKNOWN, InvalidPhoneNumberException::class], # integer
+        ];
+    }
+
+    public function phoneNumberBelgianDataProvider()
+    {
+        return [
+            ['0471234567', '+32 471 234 567', 'BE', PhoneNumberModel::TYPE_MOBILE, null],
+            ['0471234567', '+32 471 234 567', 'BE', PhoneNumberModel::TYPE_MOBILE, null],
+            ['010614236', '+32 10 61 42 36', 'BE', PhoneNumberModel::TYPE_FIXED, null]
         ];
     }
 }

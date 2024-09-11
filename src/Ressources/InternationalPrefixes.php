@@ -38,4 +38,21 @@ class InternationalPrefixes
             'country' => InternationalPrefixes::ERROR_UNKNOWN_COUNTRY
         ];
     }
+
+    /**
+     * Fin prefixes for the given country code.
+     *
+     * @param string $countryCode The country code to get the international prefixes for.
+     * @return array The international prefixes for the given country code. 
+     */
+    public static function getPrefixeByCountryCode(string $countryCode): string
+    {
+        foreach (self::WESTERN_EUROPE as $prefix => $country) {
+            if ($country['countryCode'] === $countryCode) {
+                return (string) $prefix;
+            }
+        }
+
+        return InternationalPrefixes::ERROR_UNKNOWN_COUNTRY;
+    }
 }

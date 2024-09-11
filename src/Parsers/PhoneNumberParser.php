@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Helip\PhoneNumber\Parsers;
 
 use Helip\PhoneNumber\Models\PhoneNumberModel;
+use Helip\PhoneNumber\PhoneNumber;
+use Helip\PhoneNumber\Ressources\InternationalPrefixes;
+
+use function PHPUnit\Framework\throwException;
 
 /**
  * Parse a phone number and return a PhoneNumberModel object.
@@ -15,12 +19,21 @@ class PhoneNumberParser
     use TypeParserTrait;
     use FormatsParserTrait;
 
-    public static function parse(string $rawPhoneNumber): PhoneNumberModel|null
+    public static function parse(string $rawPhoneNumber, ?string $expectedCountryCode): PhoneNumberModel|null
     {
         // cleaning the phone number
         $rawPhoneNumber = preg_replace('/[^0-9+]/', '', $rawPhoneNumber);
 
         $countryCode = self::calculateCountryCode($rawPhoneNumber);
+
+        if($countryCode['countryCode'] === InternationalPrefixes::ERROR_UNKNOWN_COUNTRY && $expectedCountryCode) {
+            $countryCode = [
+                'countryCode' => $expectedCountryCode,
+                'internationalPrefix' => InternationalPrefixes::getPrefixeByCountryCode($expectedCountryCode),
+                'localNumber' => $rawPhoneNumber
+            ];
+        }
+
         $types = self::calculateType($rawPhoneNumber, $countryCode['internationalPrefix'], $countryCode['countryCode']);
         $type = $types['type'];
         $localPrefix = $types['localPrefix'];
