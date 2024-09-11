@@ -1,0 +1,23 @@
+{
+    "name": "helip/phonenumber",
+    "description": "a library to manage belgian phone numbers",
+    "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "^11.3",
+        "phpstan/phpstan": "^1.12",
+        "friendsofphp/php-cs-fixer": "^3.64"
+    },
+    "license": "LGPL-3.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "Helip\\PhoneNumber\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Pierre",
+            "email": "Pierre.helin@gmail.com"
+        }
+    ],
+    "require": {}
+}
