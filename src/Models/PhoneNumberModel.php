@@ -30,6 +30,11 @@ class PhoneNumberModel
         return $this->internationalFormat;
     }
 
+    public function getInternationalRaw(): ?string
+    {
+        return preg_replace('/\s/', '', $this->getInternationalFormat());
+    }
+
     public function getInternationalPrefix(): ?string
     {
         return $this->internationalPrefix;

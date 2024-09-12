@@ -57,6 +57,15 @@ class PhoneNumber
     }
 
     /**
+     * Get the international format of the phone number without spaces.
+     * Example: +32471234567
+     */
+    public function getInternationalRaw(): ?string
+    {
+        return $this->phoneNumberModel->getInternationalRaw();
+    }
+
+    /**
      * Get the international prefix of the phone number.
      * Example: 32
      */
